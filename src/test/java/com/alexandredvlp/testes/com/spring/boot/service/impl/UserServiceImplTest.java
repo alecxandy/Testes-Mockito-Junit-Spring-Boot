@@ -2,6 +2,7 @@ package com.alexandredvlp.testes.com.spring.boot.service.impl;
 
 import com.alexandredvlp.testes.com.spring.boot.domain.User;
 import com.alexandredvlp.testes.com.spring.boot.dto.UserDTO;
+import com.alexandredvlp.testes.com.spring.boot.exeception.ObjectNotFoundException;
 import com.alexandredvlp.testes.com.spring.boot.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
     public static final long ID = 1L;
@@ -53,7 +52,18 @@ class UserServiceImplTest {
     }
 
     @Test
+    void notFindById() {
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new ObjectNotFoundException("null"));
+        try{
+        } catch (Exception e) {
+            Assertions.assertEquals(ObjectNotFoundException.class, e.getClass());
+            Assertions.assertEquals("null", e.getMessage());
+        }
+    }
+
+    @Test
     void findAll() {
+
     }
 
     @Test
