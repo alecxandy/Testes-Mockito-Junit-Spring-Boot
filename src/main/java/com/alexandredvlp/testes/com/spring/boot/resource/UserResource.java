@@ -41,4 +41,10 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.OK).body(userDTOS);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(userService.save(dto), UserDTO.class));
+    }
+
 }

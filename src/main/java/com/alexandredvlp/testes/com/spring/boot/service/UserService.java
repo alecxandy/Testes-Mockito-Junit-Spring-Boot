@@ -11,6 +11,6 @@ public interface UserService {
     User findById(Long id);
     List<User> findAll();
     User save(UserDTO dto);
-
     void findByEmail(UserDTO dto);
+    User Update(UserDTO userDTO);
 }
