@@ -13,4 +13,6 @@ public interface UserService {
     User save(UserDTO dto);
     void findByEmail(UserDTO dto);
     User Update(UserDTO userDTO);
+
+    void deleteById(Long id);
 }

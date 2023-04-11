@@ -47,4 +47,9 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(userService.save(dto), UserDTO.class));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserDTO> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
