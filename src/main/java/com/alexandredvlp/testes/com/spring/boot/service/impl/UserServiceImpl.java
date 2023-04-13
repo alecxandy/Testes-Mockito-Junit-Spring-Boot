@@ -34,18 +34,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(UserDTO dto) {
+        findByEmail(dto);
         return userRepository.save(modelMapper.map(dto, User.class));
     }
 
 
     @Override
-    public void findByEmail(UserDTO dto) {
-        userRepository.findByEmail(dto.getEmail())
+    public Optional<User> findByEmail(UserDTO dto) {
+        User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new DataIntegratyViolationException("Email já cadastrado"));
+        return Optional.of(user);
     }
 
     @Override
-    public User Update(UserDTO userDTO) {
+    public User update(UserDTO userDTO) {
         findByEmail(userDTO);
         return userRepository.save(modelMapper.map(userDTO, User.class));
     }

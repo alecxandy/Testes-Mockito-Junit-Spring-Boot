@@ -1,6 +1,5 @@
 package com.alexandredvlp.testes.com.spring.boot.resource;
 
-import com.alexandredvlp.testes.com.spring.boot.domain.User;
 import com.alexandredvlp.testes.com.spring.boot.dto.UserDTO;
 import com.alexandredvlp.testes.com.spring.boot.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/user")

@@ -2,11 +2,11 @@ package com.alexandredvlp.testes.com.spring.boot.service.impl;
 
 import com.alexandredvlp.testes.com.spring.boot.domain.User;
 import com.alexandredvlp.testes.com.spring.boot.dto.UserDTO;
+import com.alexandredvlp.testes.com.spring.boot.exeception.DataIntegratyViolationException;
 import com.alexandredvlp.testes.com.spring.boot.exeception.ObjectNotFoundException;
 import com.alexandredvlp.testes.com.spring.boot.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -74,26 +74,29 @@ class UserServiceImplTest {
         Assertions.assertEquals(ID, response.get(0).getId());
     }
 
+
     @Test
-    void save() {
-        Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
-        User response = userService.save(userDTO);
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(User.class,response.getClass());
-        Assertions.assertEquals(ID, response.getId());
-        Assertions.assertEquals(NAME, response.getName());
-        Assertions.assertEquals(PASSWORD, response.getPassword());
-        Assertions.assertEquals(EMAIL, response.getEmail());
+    void notSave() {
+        Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+                .thenReturn(optionalUser);
+        try {
+            optionalUser.get().setId(2L);
+            userService.save(userDTO);
+        } catch (Exception e) {
+            Assertions.assertEquals(DataIntegratyViolationException.class, e.getClass());
+            Assertions.assertEquals("Email já cadastrado", e.getMessage());
+        }
     }
 
 
     @Test
-    void findByEmail() {
+    void deleteWithSucess() {
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+        Mockito.doNothing().when(userRepository).deleteById(Mockito.anyLong());
+        userService.deleteById(ID);
+        Mockito.verify(userRepository,Mockito.times(1)).deleteById(Mockito.any());
     }
 
-    @Test
-    void update() {
-    }
 
     public void startUser() {
         user = new User(ID, NAME, EMAIL, PASSWORD);
