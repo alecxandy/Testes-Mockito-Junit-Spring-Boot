@@ -39,7 +39,6 @@ class UserServiceImplTest {
 
     private Optional<User> optionalUser;
 
-
     @BeforeEach
     void setUp() {
         startUser();
@@ -74,7 +73,6 @@ class UserServiceImplTest {
         Assertions.assertEquals(ID, response.get(0).getId());
     }
 
-
     @Test
     void notSave() {
         Mockito.when(userRepository.findByEmail(Mockito.anyString()))
@@ -87,8 +85,6 @@ class UserServiceImplTest {
             Assertions.assertEquals("Email já cadastrado", e.getMessage());
         }
     }
-
-
     @Test
     void deleteWithSucess() {
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
@@ -96,7 +92,6 @@ class UserServiceImplTest {
         userService.deleteById(ID);
         Mockito.verify(userRepository,Mockito.times(1)).deleteById(Mockito.any());
     }
-
 
     public void startUser() {
         user = new User(ID, NAME, EMAIL, PASSWORD);
